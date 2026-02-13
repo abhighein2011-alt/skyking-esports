@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Skyking Multi Game Tournament</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+    h1 { color: #fbbf24; }
+    .game { background: #1e293b; margin: 15px; padding: 15px; border-radius: 10px; }
+    button { padding: 10px 20px; margin-top: 10px; font-size: 16px; border-radius: 5px; border: none; background: #f59e0b; color: black; cursor: pointer; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>🎮 Skyking Multi Game Tournament</h1>
+  <p>Select a game to join the tournament!</p>
+
+  <div id="gamesContainer"></div>
+
+  <p id="status">Status: Waiting for players...</p>
+
+  <script>
+    const gamesList = [
+      {name: 'Free Fire', fee: 10, prize: 90},
+      {name: 'PUBG Mobile', fee: 20, prize: 180},
+      {name: 'Call of Duty', fee: 50, prize: 450}
+    ];
+
+    const players = {}; // {gameName: [player1, player2...]}
+
+    const container = document.getElementById('gamesContainer');
+
+    gamesList.forEach(game => {
+      players[game.name] = [];
+      const div = document.createElement('div');
+      div.className = 'game';
+      div.innerHTML = `
+        <h2>${game.name}</h2>
+        <p>Entry Fee: ₹${game.fee}</p>
+        <p>Prize Pool: ₹${game.prize}</p>
+        <button onclick="joinTournament('${game.name}', ${game.fee})">Join Tournament</button>
+      `;
+      container.appendChild(div);
+    });
+
+    function joinTournament(gameName, fee){
+      const upi = prompt(`Enter your UPI ID to pay ₹${fee} for ${gameName}`);
+      if(!upi) {
+        document.getElementById('status').innerText = `${gameName} join cancelled.`;
+        return;
+      }
+      players[gameName].push(upi);
+      document.getElementById('status').innerText = `${upi} joined ${gameName}. Players: ${players[gameName].length}`;
+    }
+
+    function selectWinner(gameName){
+      if(players[gameName].length < 2){
+        alert("Need at least 2 players!");
+        return;
+      }
+      const winnerIndex = Math.floor(Math.random() * players[gameName].length);
+      const winner = players[gameName][winnerIndex];
+      const game = gamesList.find(g => g.name === gameName);
+      const commission = Math.floor(0.1 * game.prize); // 10% commission
+      const prize = game.prize - commission;
+      document.getElementById('status').innerText = `🏆 Winner of ${gameName}: ${winner}! Prize: ₹${prize} (Commission: ₹${commission})`;
+      players[gameName] = []; // Reset
+    }
+
+    // Example: call selectWinner('Free Fire') in console to simulate winner
+  </script>
+</body>
+</html>
