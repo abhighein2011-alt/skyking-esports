@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Multi Game Tournament - Skyking Esports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 50px; }
+    h1 { color: #fbbf24; }
+    .game { background: #1e293b; margin: 15px; padding: 15px; border-radius: 10px; }
+    button { padding: 10px 20px; margin-top: 10px; font-size: 16px; border-radius: 5px; border: none; background: #f59e0b; color: black; cursor: pointer; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Multi Game Tournament</h1>
+  <p>Select a game and join the tournament!</p>
+
+  <div class="game">
+    <h2>Free Fire</h2>
+    <button onclick="joinTournament('Free Fire')">Join</button>
+  </div>
+
+  <div class="game">
+    <h2>PUBG Mobile</h2>
+    <button onclick="joinTournament('PUBG Mobile')">Join</button>
+  </div>
+
+  <div class="game">
+    <h2>Call of Duty</h2>
+    <button onclick="joinTournament('COD')">Join</button>
+  </div>
+
+  <p id="status">Status: Waiting for players...</p>
+
+  <script>
+    const entryFee = 10;
+    const commissionPercent = 10;
+    let players = [];
+
+    function joinTournament(gameName){
+      const playerName = prompt("Enter Player Name");
+      const upi = prompt("Enter Player UPI ID to pay ₹" + entryFee);
+      if(!playerName || !upi){ 
+        alert("Join cancelled."); 
+        return;
+      }
+      players.push({name: playerName, game: gameName, upi: upi});
+      document.getElementById('status').innerText = `${playerName} joined ${gameName} tournament! Players: ${players.map(p => p.name).join(', ')}`;
+    }
+
+    function selectWinner(){
+      if(players.length < 2){
+        alert("Need at least 2 players!");
+        return;
+      }
+      const winnerIndex = Math.floor(Math.random() * players.length);
+      const winner = players[winnerIndex];
+      const totalPrize = entryFee * players.length;
+      const commission = Math.floor(totalPrize * commissionPercent / 100);
+      const prize = totalPrize - commission;
+
+      document.getElementById('status').innerText = `🏆 Winner: ${winner.name} in ${winner.game}! Prize: ₹${prize} (Commission: ₹${commission})\nUPI ID: ${winner.upi}`;
+      
+      // Reset players for next tournament
+      players = [];
+    }
+  </script>
+
+  <button onclick="selectWinner()">Select Winner</button>
+</body>
+</html>
