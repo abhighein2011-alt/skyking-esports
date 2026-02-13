@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Skyking Esports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; margin: 0; padding: 0; }
+    nav { background: #1e293b; padding: 15px; text-align: center; }
+    nav button { margin: 0 10px; padding: 10px 20px; border-radius: 5px; border: none; background: #f59e0b; color: black; cursor: pointer; }
+    section { display: none; padding: 50px; }
+    section.active { display: block; }
+    h1 { color: #fbbf24; }
+    input, button { padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+    input { width: 80%; }
+    table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+    th, td { border: 1px solid #f59e0b; padding: 10px; }
+    th { background-color: #1e293b; }
+    td { background-color: #0f172a; }
+    .game { background: #1e293b; margin: 15px; padding: 15px; border-radius: 10px; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('registration')">Register</button>
+  <button onclick="showSection('tournament')">Tournament</button>
+  <button onclick="showSection('leaderboard')">Leaderboard</button>
+  <button onclick="showSection('payment')">Payment Simulation</button>
+  <button onclick="showSection('multi-game')">Multi-Game</button>
+  <button onclick="showSection('winner')">Winner Payout</button>
+</nav>
+
+<!-- Home Section -->
+<section id="home" class="active">
+  <h1>Welcome to Skyking Esports</h1>
+  <p>Play, Join Tournaments & Win Prizes!</p>
+</section>
+
+<!-- Registration Section -->
+<section id="registration">
+  <h1>Create Your Account</h1>
+  <form onsubmit="alert('Registration simulated!'); return false;">
+    <input type="text" placeholder="Full Name" required><br>
+    <input type="email" placeholder="Email" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <button type="submit">Create Account</button>
+  </form>
+</section>
+
+<!-- Tournament Section -->
+<section id="tournament">
+  <h1>Tournament Page</h1>
+  <div class="game">
+    <h2>Free Fire</h2>
+    <button onclick="joinTournament('Free Fire')">Join Tournament</button>
+  </div>
+  <div class="game">
+    <h2>PUBG Mobile</h2>
+    <button onclick="joinTournament('PUBG Mobile')">Join Tournament</button>
+  </div>
+  <div class="game">
+    <h2>Call of Duty</h2>
+    <button onclick="joinTournament('COD')">Join Tournament</button>
+  </div>
+  <p id="status-tournament">Status: Waiting for players...</p>
+</section>
+
+<!-- Leaderboard Section -->
+<section id="leaderboard">
+  <h1>Leaderboard</h1>
+  <table>
+    <tr><th>Rank</th><th>Player Name</th><th>Game</th><th>Prize Won</th></tr>
+    <tr><td>1</td><td>Player1</td><td>Free Fire</td><td>₹90</td></tr>
+    <tr><td>2</td><td>Player2</td><td>PUBG Mobile</td><td>₹80</td></tr>
+    <tr><td>3</td><td>Player3</td><td>COD</td><td>₹70</td></tr>
+  </table>
+</section>
+
+<!-- Payment Simulation Section -->
+<section id="payment">
+  <h1>Payment Simulation</h1>
+  <button onclick="joinPayment('Player1')">Player1 Join</button>
+  <button onclick="joinPayment('Player2')">Player2 Join</button>
+  <button onclick="selectPaymentWinner()">Select Winner</button>
+  <p id="status-payment">Status: Waiting for players...</p>
+</section>
+
+<!-- Multi-Game Tournament Section -->
+<section id="multi-game">
+  <h1>Multi Game Tournament</h1>
+  <div class="game">
+    <h2>Free Fire</h2>
+    <button onclick="joinMultiGame('Free Fire')">Join</button>
+  </div>
+  <div class="game">
+    <h2>PUBG Mobile</h2>
+    <button onclick="joinMultiGame('PUBG Mobile')">Join</button>
+  </div>
+  <div class="game">
+    <h2>Call of Duty</h2>
+    <button onclick="joinMultiGame('COD')">Join</button>
+  </div>
+  <p id="status-multi">Status: Waiting for players...</p>
+  <button onclick="selectMultiWinner()">Select Winner</button>
+</section>
+
+<!-- Winner Auto Payout Section -->
+<section id="winner">
+  <h1>Winner Auto Payout</h1>
+  <button onclick="joinWinner('Player1')">Player1 Join</button>
+  <button onclick="joinWinner('Player2')">Player2 Join</button>
+  <button onclick="joinWinner('Player3')">Player3 Join</button>
+  <button onclick="selectWinnerAuto()">Select Winner</button>
+  <p id="status-winner">Status: Waiting for players...</p>
+</section>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Common Variables
+const entryFee = 10;
+const commissionPercent = 10;
+
+// Tournament
+let tournamentPlayers = [];
+function joinTournament(game){
+  const name = prompt("Enter Player Name");
+  const upi = prompt("Enter Player UPI ID to pay ₹" + entryFee);
+  if(!name || !upi) return;
+  tournamentPlayers.push({name, game, upi});
+  document.getElementById('status-tournament').innerText = `${name} joined ${game} tournament! Players: ${tournamentPlayers.map(p=>p.name).join(', ')}`;
+}
+function selectWinner(){
+  if(tournamentPlayers.length<2){ alert("Need 2+ players"); return; }
+  const idx = Math.floor(Math.random()*tournamentPlayers.length);
+  const winner = tournamentPlayers[idx];
+  const total = entryFee*tournamentPlayers.length;
+  const commission = Math.floor(total*commissionPercent/100);
+  const prize = total - commission;
+  document.getElementById('status-tournament').innerText = `🏆 Winner: ${winner.name} in ${winner.game}! Prize: ₹${prize} (Commission: ₹${commission})\nUPI: ${winner.upi}`;
+  tournamentPlayers=[];
+}
+
+// Payment Simulation
+let paymentPlayers = [];
+function joinPayment(name){
+  const upi = prompt(`Enter ${name}'s UPI ID to pay ₹${entryFee}`);
+  if(!upi) return;
+  paymentPlayers.push({name, upi});
+  document.getElementById('status-payment').innerText = `${name} joined! Players: ${paymentPlayers.map(p=>p.name).join(', ')}`;
+}
+function selectPaymentWinner(){
+  if(paymentPlayers.length<2){ alert("Need 2+ players"); return; }
+  const idx = Math.floor(Math.random()*paymentPlayers.length);
+  const winner = paymentPlayers[idx];
+  const total = entryFee*paymentPlayers.length;
+  const commission = Math.floor(total*commissionPercent/100);
+  const prize = total-commission;
+  document.getElementById('status-payment').innerText = `🏆 Winner: ${winner.name}! Prize: ₹${prize} (Commission: ₹${commission})\nUPI: ${winner.upi}`;
+  paymentPlayers=[];
+}
+
+// Multi Game
+let multiPlayers = [];
+function joinMultiGame(game){
+  const name = prompt("Enter Player Name");
+  const upi = prompt("Enter UPI ID to pay ₹"+entryFee);
+  if(!name || !upi) return;
+  multiPlayers.push({name, game, upi});
+  document.getElementById('status-multi').innerText = `${name} joined ${game}! Players: ${multiPlayers.map(p=>p.name).join(', ')}`;
+}
+function selectMultiWinner(){
+  if(multiPlayers.length<2){ alert("Need 2+ players"); return; }
+  const idx = Math.floor(Math.random()*multiPlayers.length);
+  const winner = multiPlayers[idx];
+  const total = entryFee*multiPlayers.length;
+  const commission = Math.floor(total*commissionPercent/100);
+  const prize = total-commission;
+  document.getElementById('status-multi').innerText = `🏆 Winner: ${winner.name} in ${winner.game}! Prize: ₹${prize} (Commission: ₹${commission})\nUPI: ${winner.upi}`;
+  multiPlayers=[];
+}
+
+// Winner Auto Payout
+let winnerPlayers = [];
+function joinWinner(name){
+  const upi = prompt(`Enter ${name}'s UPI ID to pay ₹${entryFee}`);
+  if(!upi) return;
+  winnerPlayers.push({name, upi});
+  document.getElementById('status-winner').innerText = `${name} joined! Players: ${winnerPlayers.map(p=>p.name).join(', ')}`;
+}
+function selectWinnerAuto(){
+  if(winnerPlayers.length<2){ alert("Need 2+ players"); return; }
+  const idx = Math.floor(Math.random()*winnerPlayers.length);
+  const winner = winnerPlayers[idx];
+  const total = entryFee*winnerPlayers.length;
+  const commission = Math.floor(total*commissionPercent/100);
+  const prize = total-commission;
+  document.getElementById('status-winner').innerText = `🏆 Winner: ${winner.name}! Prize: ₹${prize} (Commission: ₹${commission})\nUPI: ${winner.upi}`;
+  winnerPlayers=[];
+}
+</script>
+
+</body>
+  </html>
