@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Skyking Esports - Tournament</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+    h1 { color: #fbbf24; }
+    .game { background: #1e293b; margin: 15px; padding: 15px; border-radius: 10px; }
+    button { padding: 10px 20px; margin-top: 10px; font-size: 16px; border-radius: 5px; border: none; background: #f59e0b; color: black; cursor: pointer; }
+  </style>
+</head>
+
+<body>
+  <h1>🎮 Skyking Esports Tournament</h1>
+  <p>Choose a game and join the tournament!</p>
+
+  <div class="game">
+    <h2>Free Fire</h2>
+    <p>Entry Fee: ₹10</p>
+    <p>Prize Pool: ₹90</p>
+    <button onclick="joinTournament('Free Fire', 10)">Join Tournament</button>
+  </div>
+
+  <div class="game">
+    <h2>Coming Soon: Other Game</h2>
+    <p>Entry Fee: ₹20</p>
+    <p>Prize Pool: ₹180</p>
+    <button onclick="joinTournament('Other Game', 20)">Join Tournament</button>
+  </div>
+
+  <p id="status"></p>
+
+  <script>
+    function joinTournament(game, fee){
+      // Temporary simulation
+      const upi = prompt(`Enter your UPI ID to pay ₹${fee} for ${game}`);
+      if(upi){
+        document.getElementById('status').innerText = `You joined ${game} tournament with ₹${fee}. Payment via UPI: ${upi}`;
+      } else {
+        document.getElementById('status').innerText = `You cancelled joining ${game}.`;
+      }
+    }
+  </script>
+</body>
+</html>
