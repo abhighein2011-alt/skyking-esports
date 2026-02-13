@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Skyking Esports - Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+    h1 { color: #fbbf24; }
+    table { margin: 0 auto; border-collapse: collapse; width: 90%; max-width: 600px; }
+    th, td { border: 1px solid #f59e0b; padding: 10px; }
+    th { background: #1e293b; }
+    td { background: #1e293b; }
+  </style>
+</head>
+<body>
+  <h1>🏆 Skyking Leaderboard</h1>
+  <p>Top players and recent winners!</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Game</th>
+        <th>Prize (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="leaderboardBody">
+      <!-- Players will be added here dynamically -->
+    </tbody>
+  </table>
+
+  <p id="status"></p>
+
+  <script>
+    // Sample data (later connect to backend/DB)
+    const leaderboardData = [
+      {rank: 1, player: 'Player1', game: 'Free Fire', prize: 90},
+      {rank: 2, player: 'Player2', game: 'Free Fire', prize: 0},
+      {rank: 3, player: 'Player3', game: 'Other Game', prize: 180}
+    ];
+
+    const tbody = document.getElementById('leaderboardBody');
+    leaderboardData.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${item.rank}</td><td>${item.player}</td><td>${item.game}</td><td>₹${item.prize}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('status').innerText = "Leaderboard updated successfully! 🎮";
+  </script>
+</body>
+</html>
