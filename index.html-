@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Skyking Esports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 50px; }
+    h1 { color: #fbbf24; }
+    a { display: inline-block; margin: 15px; padding: 10px 20px; color: black; background: #f59e0b; text-decoration: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Skyking Esports</h1>
+  <p>Join tournaments, compete, and win prizes!</p>
+  
+  <a href="registration.html">Register</a>
+  <a href="tournament.html">Tournaments</a>
+  <a href="leaderboard.html">Leaderboard</a>
+  <a href="payment-simulation.html">Payment Simulation</a>
+  <a href="multi-game-tournament.html">Multi Game</a>
+
+  <p style="margin-top:50px; font-size:12px;">Skyking Esports Web App - Progressive Web App ready</p>
+</body>
+</html>
