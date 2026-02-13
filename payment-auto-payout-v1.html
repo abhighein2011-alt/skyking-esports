@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Payment + Winner Auto Payout - Skyking Esports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 50px; }
+    h1 { color: #fbbf24; }
+    button { padding: 10px 20px; margin: 10px; font-size: 16px; border-radius: 5px; border: none; background: #f59e0b; color: black; cursor: pointer; }
+    #status { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Payment + Winner Auto Payout</h1>
+  <p>Simulate payment, join tournament, and automatically select winner!</p>
+
+  <button onclick="joinTournament('Player1')">Player1 Join</button>
+  <button onclick="joinTournament('Player2')">Player2 Join</button>
+  <button onclick="joinTournament('Player3')">Player3 Join</button>
+  <button onclick="selectWinner()">Select Winner</button>
+
+  <p id="status">Status: Waiting for players...</p>
+
+  <script>
+    const entryFee = 10;
+    const commissionPercent = 10;
+    let players = [];
+
+    function joinTournament(playerName){
+      const upi = prompt(`Enter ${playerName}'s UPI ID to pay ₹${entryFee}`);
+      if(!upi){ 
+        document.getElementById('status').innerText = `${playerName} join cancelled.`; 
+        return;
+      }
+      players.push({name: playerName, upi: upi});
+      document.getElementById('status').innerText = `${playerName} joined! Players: ${players.map(p => p.name).join(', ')}`;
+    }
+
+    function selectWinner(){
+      if(players.length < 2){
+        alert("Need at least 2 players to select a winner!");
+        return;
+      }
+      const winnerIndex = Math.floor(Math.random() * players.length);
+      const winner = players[winnerIndex];
+      const totalPrize = entryFee * players.length;
+      const commission = Math.floor(totalPrize * commissionPercent / 100);
+      const prize = totalPrize - commission;
+
+      document.getElementById('status').innerText = `🏆 Winner: ${winner.name}!\nPrize: ₹${prize} (Commission: ₹${commission})\nUPI ID: ${winner.upi}`;
+      
+      // Reset for next tournament
+      players = [];
+    }
+  </script>
+</body>
+</html>
